@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 public class DepartmentServiceImpl implements DepartmentService {
 
     private final EmployeeServiceImpl employeeService;
-    private final Collection<Employee> employees;
+    //private final Collection<Employee> employees;
 
     public DepartmentServiceImpl(EmployeeServiceImpl employeeService) {
         this.employeeService = employeeService;
-        employees = employeeService.printEmployees();
+        //employees = employeeService.printEmployees();
     }
     @Override
     public double getMaxSalaryForDepartment(String department) {
-        return employees.stream()
+        return employeeService.printEmployees().stream()
                 .filter(e -> e.getDepartment().equals(department))
                 .mapToDouble(e->e.getSalary())
                 .max()
@@ -27,7 +27,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
     @Override
     public double getMinSalaryForDepartment(String department) {
-        return employees.stream()
+        return employeeService.printEmployees().stream()
                 .filter(e -> e.getDepartment().equals(department))
                 .mapToDouble(e->e.getSalary())
                 .min()
@@ -35,28 +35,28 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
     @Override
     public List<Employee> printEmployeesListForDepartment(String department) {
-        employees.stream()
+        employeeService.printEmployees().stream()
                 .filter(e -> e.getDepartment().equals(department))
                 .findAny()
                 .orElseThrow(DepartmentNotFoundException::new);
 
-        return employees.stream()
+        return employeeService.printEmployees().stream()
                 .filter(e -> e.getDepartment().equals(department))
                 .collect(Collectors.toList());
     }
     @Override
     public Map<String, List<Employee>> printEmployeesListByDepartment() {
-        return employees.stream()
+        return employeeService.printEmployees().stream()
                .collect(Collectors.groupingBy(Employee::getDepartment));
     }
     @Override
     public double getSalarySumForDepartment(String department) {
-        employees.stream()
+        employeeService.printEmployees().stream()
                 .filter(e -> e.getDepartment().equals(department))
                 .findAny()
                 .orElseThrow(DepartmentNotFoundException::new);
 
-        return employees.stream()
+        return employeeService.printEmployees().stream()
                 .filter(e -> e.getDepartment().equals(department))
                 .mapToDouble(e->e.getSalary())
                 .sum();
